@@ -1,11 +1,11 @@
 // http://rosettacode.org/wiki/Kaprekar_numbers
 
 fn is_kaprekar(k: i64) -> bool {
-	// Only positive numbers are Kaprekar numbers
-	if k < 1 {
-		return false;
-	}
-	// 1 is a Kaprekar number
+    // Only positive numbers are Kaprekar numbers
+    if k < 1 {
+        return false;
+    }
+    // 1 is a Kaprekar number
     if k == 1 {
         return true;
     }
@@ -17,7 +17,7 @@ fn is_kaprekar(k: i64) -> bool {
     let mut left = sq / split;
     // Until we find a split where the left != 0
     while left == 0 {
-    	// Reduce the split location
+        // Reduce the split location
         split /= 10;
         // New left number
         left = sq / split;
@@ -25,7 +25,7 @@ fn is_kaprekar(k: i64) -> bool {
     // Get the right number
     let mut right = sq % split;
 
-	// Continue until the split won't split anything
+    // Continue until the split won't split anything
     while split != 1 {
         // if right == 0, splitting further down will always be 0
         // 0 is not considered positive, and is invalid
@@ -44,9 +44,33 @@ fn is_kaprekar(k: i64) -> bool {
         right = sq % split;
     }
 
-	// If we reach here, we do not have a Kaprekar number
+    // If we reach here, we do not have a Kaprekar number
     false
 }
+
+fn is_kaprekar_base(base: i64, k: i64) -> bool {
+    let sq = k * k;
+    let mut tens = 1;
+    if (sq - k) % (base - 1) != 0 {
+        return false;
+    }
+    while tens < k {
+        tens *= base;
+    }
+    if k == tens {
+        return 1 == k;
+    }
+    let mut r = sq % tens;
+    while r < k {
+        if sq / tens + r == k {
+            return true;
+        }
+        tens *= base;
+        r = sq % tens;
+    }
+    false
+}
+
 
 // str_is_kaprekar takes a string and converts it to i64,
 // returning the result from is_kaprekar
@@ -72,29 +96,56 @@ fn main() {
     println!("Extra credit: Count Kaprekar less than 1,000,000");
     let mut count = 0;
     for i in 1..1_000_000 {
-    	if is_kaprekar(i) {
-    		count+=1;
-    	}
+        if is_kaprekar(i) {
+            count += 1;
+        }
     }
     println!("There are {} Kaprekar numbers less than 1,000,000", count);
+    println!("");
+
+    println!("Extra extra credit: base 17 between 1 and 1,000,000");
+    count = 0;
+    for i in 1..1_000_000 {
+        if is_kaprekar_base(17, i) {
+            count += 1;
+            print!("{} ", i);
+        }
+    }
+    println!("");
 }
 
 #[test]
 fn kaprekar_numeric() {
-	assert_eq!(is_kaprekar(-1), false);
-	assert_eq!(is_kaprekar(1), true);
-	assert_eq!(is_kaprekar(9), true);
-	assert_eq!(is_kaprekar(10), false);
-	assert_eq!(is_kaprekar(45), true);
-	assert_eq!(is_kaprekar(100), false);
+    assert_eq!(is_kaprekar(-1), false);
+    assert_eq!(is_kaprekar(1), true);
+    assert_eq!(is_kaprekar(9), true);
+    assert_eq!(is_kaprekar(10), false);
+    assert_eq!(is_kaprekar(45), true);
+    assert_eq!(is_kaprekar(100), false);
 }
 
 #[test]
 fn kaprekar_string() {
-	assert_eq!(str_is_kaprekar(String::from("-1")), false);
-	assert_eq!(str_is_kaprekar(String::from("1")), true);
-	assert_eq!(str_is_kaprekar(String::from("9")), true);
-	assert_eq!(str_is_kaprekar(String::from("10")), false);
-	assert_eq!(str_is_kaprekar(String::from("45")), true);
-	assert_eq!(str_is_kaprekar(String::from("100")), false);
+    assert_eq!(str_is_kaprekar(String::from("-1")), false);
+    assert_eq!(str_is_kaprekar(String::from("1")), true);
+    assert_eq!(str_is_kaprekar(String::from("9")), true);
+    assert_eq!(str_is_kaprekar(String::from("10")), false);
+    assert_eq!(str_is_kaprekar(String::from("45")), true);
+    assert_eq!(str_is_kaprekar(String::from("100")), false);
+}
+
+#[test]
+fn kaprekar_base() {
+    assert_eq!(is_kaprekar_base(10, -1), false);
+    assert_eq!(is_kaprekar_base(17, -1), false);
+    assert_eq!(is_kaprekar_base(10, 1), true);
+    assert_eq!(is_kaprekar_base(17, 1), true);
+    assert_eq!(is_kaprekar_base(10, 9), true);
+    assert_eq!(is_kaprekar_base(17, 9), false);
+    assert_eq!(is_kaprekar_base(10, 16), false);
+    assert_eq!(is_kaprekar_base(17, 16), true);
+    assert_eq!(is_kaprekar_base(10, 45), true);
+    assert_eq!(is_kaprekar_base(17, 45), false);
+    assert_eq!(is_kaprekar_base(10, 100), false);
+    assert_eq!(is_kaprekar_base(17, 100), false);
 }
