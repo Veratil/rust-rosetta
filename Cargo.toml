@@ -1084,6 +1084,11 @@ name = "kahansum"
 path = "src/kahansum.rs"
 
 [[bin]]
+# http://rosettacode.org/wiki/Kaprekar_numbers
+name = "kaprekar_numbers"
+path = "src/kaprekar_numbers.rs"
+
+[[bin]]
 # http://rosettacode.org/wiki/Keyboard_input/Obtain_a_Y_or_N_response
 name = "keyboard_input_obtain_a_y_or_n_response"
 path = "src/keyboard_input/obtain_a_y_or_n_response.rs"
