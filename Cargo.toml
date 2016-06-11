@@ -429,6 +429,11 @@ name = "carmichael_3_strong_pseudoprimes"
 path = "src/carmichael_3_strong_pseudoprimes.rs"
 
 [[bin]]
+# http://rosettacode.org/wiki/Casting_out_nines
+name = "casting_out_nines"
+path = "src/casting_out_nines.rs"
+
+[[bin]]
 # http://rosettacode.org/wiki/Catalan_numbers
 name = "catalan_numbers"
 path = "src/catalan_numbers.rs"
