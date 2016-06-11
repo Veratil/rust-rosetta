@@ -1,5 +1,6 @@
 // http://rosettacode.org/wiki/Kaprekar_numbers
 
+// Base 10 kaprekar function
 fn is_kaprekar(k: i64) -> bool {
     // Only positive numbers are Kaprekar numbers
     if k < 1 {
@@ -11,17 +12,14 @@ fn is_kaprekar(k: i64) -> bool {
     }
     // Square the input
     let sq = k * k;
-    // 10^18 is the largest 10^x for i64 where you can split a number
-    let mut split = 10i64.pow(18);
+    // The location to split the number
+    let mut split: i64 = 1;
+    // To make the split location start at the left-most
+    while split < k {
+        split *= 10;
+    }
     // The left number of the split
     let mut left = sq / split;
-    // Until we find a split where the left != 0
-    while left == 0 {
-        // Reduce the split location
-        split /= 10;
-        // New left number
-        left = sq / split;
-    }
     // Get the right number
     let mut right = sq % split;
 
@@ -48,12 +46,13 @@ fn is_kaprekar(k: i64) -> bool {
     false
 }
 
+// Copied from C source (with a few minor changes)
 fn is_kaprekar_base(base: i64, k: i64) -> bool {
     let sq = k * k;
-    let mut tens = 1;
     if (sq - k) % (base - 1) != 0 {
         return false;
     }
+    let mut tens = 1;
     while tens < k {
         tens *= base;
     }
