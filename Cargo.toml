@@ -781,6 +781,11 @@ name = "flatten_list"
 path = "src/flatten_list.rs"
 
 [[bin]]
+# http://rosettacode.org/wiki/Floyd's_triangle
+name = "floyds_triangle"
+path = "src/floyds_triangle.rs"
+
+[[bin]]
 # http://rosettacode.org/wiki/Fork
 name = "fork"
 path = "src/fork.rs"
